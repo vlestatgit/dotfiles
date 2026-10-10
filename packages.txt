@@ -21,6 +21,7 @@ catppuccin-gtk-theme-mocha
 hyprland
 hyprpaper
 hyprlock
+hyprshot
 kitty
 nautilus
 nwg-look
