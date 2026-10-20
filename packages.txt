@@ -12,8 +12,6 @@ No Desktop Envyroment
 Notice that this was built on a laptop and many
 features will require changes from device to device.
 
-Sorry about my english, i'm not a native :3
-
 -------- Manualy Installed -------- >
 
 brightnessctl
