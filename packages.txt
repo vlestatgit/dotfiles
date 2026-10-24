@@ -25,6 +25,7 @@ nautilus
 nwg-look
 power-profiles-daemon
 rofi
+sddm
 snappy-switcher
 ttf-jetbrains-mono-nerd
 waybar
