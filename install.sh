@@ -30,48 +30,65 @@ PACOTES_PACMAN=(
     "ttf-jetbrains-mono-nerd"
     "waybar"
     "git"
+    "fastfetch"
+    "btop"
 )
 
 echo -e "\n${AZUL}[2/5] Instalando pacotes principais do sistema...${SEM_COR}"
 sudo pacman -S --needed --noconfirm "${PACOTES_PACMAN[@]}"
 
-# 3. Instalar pacotes específicos do AUR usando o Paru
+# 3. Instalar pacotes específicos do AUR usando o Yay
 PACOTES_AUR=(
     "catppuccin-gtk-theme-mocha"
     "snappy-switcher"
     "yaru-icon-theme"
 )
 
-echo -e "\n${AZUL}[3/5] Instalando temas e pacotes do AUR...${SEM_COR}"
-paru -S --needed --noconfirm "${PACOTES_AUR[@]}"
+echo -e "\n${AZUL}[3/5] Instalando temas e pacotes do AUR com o Yay...${SEM_COR}"
+yay -S --needed --noconfirm "${PACOTES_AUR[@]}"
 
-# 4. Sincronizar o Repositório diretamente na ~/.config
+# 4. Clonar e sincronizar os Dotfiles de forma isolada e segura
+REPOS_DIR="$HOME/dotfiles-repo"
 CONFIG_DIR="$HOME/.config"
 
-echo -e "\n${AZUL}[4/5] Configurando a pasta ~/.config com o GitHub...${SEM_COR}"
+echo -e "\n${AZUL}[4/5] Baixando dotfiles do GitHub...${SEM_COR}"
 
-# Se a pasta .config já existir, faz um backup seguro antes para não perder nada
-if [ -d "$CONFIG_DIR" ] && [ ! -d "$CONFIG_DIR/.git" ]; then
-    echo "Fazendo backup da .config existente para .config.backup..."
-    mv "$CONFIG_DIR" "${CONFIG_DIR}.backup"
-fi
+# Remove o diretório temporário se ele já existir para garantir um clone limpo
+rm -rf "$REPOS_DIR"
+git clone https://github.com "$REPOS_DIR"
 
-# Clona o repositório diretamente como a sua pasta .config
-if [ ! -d "$CONFIG_DIR" ]; then
-    echo "Clonando vlestatgit/dotfiles direto em ~/.config..."
-    git clone https://github.com "$CONFIG_DIR"
-fi
+# Garante que a pasta ~/.config exista antes de copiar as subpastas
+mkdir -p "$CONFIG_DIR"
 
-# 5. Mover arquivos da raiz para os lugares corretos
+echo "Aplicando as configurações em ~/.config..."
+# Lista exata das pastas de ferramentas mapeadas do seu repositório para a .config
+PASTAS_CONFIG=("btop" "fastfetch" "hypr" "hyprpaper" "kitty" "nwg-look" "rofi" "snappy-switcher" "waybar" "xsettingsd")
+
+for pasta in "${PASTAS_CONFIG[@]}"; do
+    if [ -d "$REPOS_DIR/$pasta" ]; then
+        # Se já existir a pasta na .config, faz um backup local seguro (.bak)
+        if [ -d "$CONFIG_DIR/$pasta" ]; then
+            echo "Fazendo backup de $CONFIG_DIR/$pasta para $CONFIG_DIR/${pasta}.bak"
+            rm -rf "${CONFIG_DIR}/${pasta}.bak"
+            mv "$CONFIG_DIR/$pasta" "$CONFIG_DIR/${pasta}.bak"
+        fi
+        cp -r "$REPOS_DIR/$pasta" "$CONFIG_DIR/"
+    fi
+done
+
+# 5. Ajustar arquivos extras de ambiente e serviços
 echo -e "\n${AZUL}[5/5] Ajustando arquivos do sistema...${SEM_COR}"
 
-# Ajusta o user-dirs se ele foi baixado para dentro da .config
-if [ -f "$CONFIG_DIR/user-dirs.dirs" ] && [ ! -f "$HOME/.config/user-dirs.dirs" ]; then
-    cp "$CONFIG_DIR/user-dirs.dirs" "$HOME/.config/user-dirs.dirs"
+# Sincroniza o user-dirs.dirs para a raiz da .config se ele estiver no repositório
+if [ -f "$REPOS_DIR/user-dirs.dirs" ]; then
+    cp "$REPOS_DIR/user-dirs.dirs" "$CONFIG_DIR/user-dirs.dirs"
 fi
 
-# Ativar o daemon de energia padrão do seu setup
+# Ativar o daemon de gerenciamento de energia do sistema
 echo "Ativando serviços essenciais..."
 sudo systemctl enable --now power-profiles-daemon.service
 
-echo -e "\n${VERDE}====== Instalação concluída! Seu VS Code já está pronto para abrir a ~/.config ======${SEM_COR}"
+# Limpeza completa da pasta temporária clonada
+rm -rf "$REPOS_DIR"
+
+echo -e "\n${VERDE}====== Instalação concluída com sucesso! Setup aplicado. ======${SEM_COR}"
