@@ -26,6 +26,7 @@ PACOTES_PACMAN=(
     "nwg-look"
     "power-profiles-daemon"
     "rofi"
+    "sddm"
     "ttf-jetbrains-mono-nerd"
     "waybar"
     "git"
