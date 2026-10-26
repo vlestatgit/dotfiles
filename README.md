@@ -10,6 +10,8 @@ This Setup was build on a minimal installation of CachyOS.
 
 Check packages.txt to see more information
 
+***INSTALL.SH NOT WORKING***
+
 ***( Made in Cachyos )***
 
 ```
