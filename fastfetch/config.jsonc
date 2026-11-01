@@ -48,7 +48,7 @@
       "type"     : "os",
       "key"      : "│   os     ",
       "keyColor" : "red",
-      "format"   : "cachyos x86 64"
+      "format"   : "cachyos 26.08.09 x86_64"
 
     },
 
@@ -66,7 +66,7 @@
       "type"     : "wm",
       "key"      : "╰─ 󱂬 wm     ",
       "keyColor" : "red",
-      "format"   : "hyprland 0.56.2 wayland"
+      "format"   : "hyprland 0.57.0 wayland"
 
     },
 
