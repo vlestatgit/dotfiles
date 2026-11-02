@@ -3,9 +3,9 @@
 -- https://wiki.hypr.land/Configuring/Start/ ;3
 
 require("settings")
-require("keybinds")
 require("startup")
-require("visuals")
 require("rules")
+require("visuals")
+require("keybinds")
 
 -- You can change GTK apps themes with NWG Look

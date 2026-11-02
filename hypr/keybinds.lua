@@ -13,7 +13,6 @@ local menu        = "~/.config/rofi/menu.sh"
 -------- Shortcuts -------- > 
 
 local super      = "SUPER"
-local fn         = "code:135"
 local screenshot = "code:107"
 
 hl.bind(super .. " + C", hl.dsp.window.close()) -- Close Window
@@ -30,11 +29,11 @@ hl.bind(super .. " + DELETE", hl.dsp.exec_cmd(energy)) -- Lock Screen
 
 -- Volume and Brightness
 
-hl.bind(fn .. " + F3", hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ +5% && [ $(pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]+(?=%)' | head -n1) -gt 100 ] && pactl set-sink-volume @DEFAULT_SINK@ 100%"), { repeating = true })
-hl.bind(fn .. " + F2", hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ -5%"), { repeating = true })
+hl.bind(super .. " + F6", hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ +5% && [ $(pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]+(?=%)' | head -n1) -gt 100 ] && pactl set-sink-volume @DEFAULT_SINK@ 100%"), { repeating = true })
+hl.bind(super .. " + F5", hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ -5%"), { repeating = true })
 
-hl.bind(fn .. " + up",   hl.dsp.exec_cmd("brightnessctl set +5%"), { repeating = true })
-hl.bind(fn .. " + down", hl.dsp.exec_cmd("BRG=$(brightnessctl -m | cut -d, -f4 | tr -d '%'); [ \"$BRG\" -gt 5 ] && brightnessctl set 5%-"), { repeating = true })
+hl.bind(super .. " + up",   hl.dsp.exec_cmd("brightnessctl set +5%"), { repeating = true })
+hl.bind(super .. " + down", hl.dsp.exec_cmd("BRG=$(brightnessctl -m | cut -d, -f4 | tr -d '%'); [ \"$BRG\" -gt 5 ] && brightnessctl set 5%-"), { repeating = true })
 
 -------- Windows -------- > 
 
